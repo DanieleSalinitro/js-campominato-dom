@@ -90,15 +90,10 @@
         display: none;
     }
     
-    section#grid .square.clicked{
-        background-color: aqua;
-    }
-    
-    section#grid .square.clicked-odd{
-        background-color: magenta;
-    }
-    
-    section#grid .square.clicked > span,
-    section#grid .square.clicked-odd> span{
-        display: inline;
-    }
+.bomb{
+    background-color: brown;
+}
+
+.not-bomb{
+    background-color: green;
+}

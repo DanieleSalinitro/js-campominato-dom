@@ -22,27 +22,29 @@ const gridElement = document.getElementById('grid');
 
 buttonCreate.addEventListener('click', function(){
    gridElement.innerHTML='';
-    let diffSquare =  document.querySelector('.form-select').value * 1;
-
+   let diffSquare =  document.querySelector('.form-select').value * 1;
    let numberSquares =[100,81,49];
    let classes=['ds-easy','ds-medium','ds-hard']
+   let bombs = randomNoRepeat(1, numberSquares[diffSquare], 16)
+    console.log(bombs);
 
     for (let i = 0; i < numberSquares[diffSquare]; i++) {
         // % creazione di un nuovo quadrato che assegno ad una nuova const newSquare
-        const newSquare = generateNewGridSquare(i + 1);
+        const newSquare = generateNewGridSquare('ciao');
+        newSquare.setAttribute('id', i+1);
         newSquare.classList.add(classes[diffSquare])
      
-        // ? quando l-utente clicca sul nostro quadrato
         newSquare.addEventListener('click', function(){
-     
-           // # se il contenuto e' pari
-           if (isEven(i + 1)){
-              // #aggiungo la classe clicked
-              newSquare.classList.toggle('clicked');
-           } else {
-              // #altrimenti aggiungo la classe clicked-odd
-              newSquare.classList.toggle('clicked-odd');
-           }
+            if (bombs.includes(newSquare.getAttribute('id')*1)){
+                newSquare.classList.add('bomb');
+                newSquare.innerHTML="x";
+                // gridElement.innerHTML='';
+
+            } else{
+                newSquare.classList.add('not-bomb');
+                newSquare.innerHTML= "o";
+            
+            }
         });
      
         // % aggiungo il mio nuovo quadrato alla grid precedemente selezionata
@@ -69,7 +71,7 @@ buttonCreate.addEventListener('click', function(){
     i=0
     while (i<nBombs){
         numero = getRndInteger(min, max);
-        if (arrayBombs.includes(numero) = false){
+        if (arrayBombs.includes(numero) == false){
             arrayBombs.push(numero)
             i++
         }
