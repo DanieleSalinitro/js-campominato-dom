@@ -3,14 +3,9 @@ function getRndInteger(min, max) {
   }
 // creo una funzione che non ha argomenti
 function generateNewGridSquare(content){
-    // definisco un nuovo elemento del dom e lo creo come <article></article>
     const newElement = document.createElement('article');
     newElement.innerHTML = '<span>' + content + '</span>';
- 
-    // aggiungo al nuovo elemento la classe .square
     newElement.classList.add('square');
- 
-    // ritorno il nuovo elemento creato
     return newElement;
 }
  
@@ -19,51 +14,51 @@ function generateNewGridSquare(content){
 let buttonCreate= document.getElementById('create-button');
 const gridElement = document.getElementById('grid');
 
-
 buttonCreate.addEventListener('click', function(){
-   gridElement.innerHTML='';
-   let diffSquare =  document.querySelector('.form-select').value * 1;
-   let numberSquares =[100,81,49];
-   let classes=['ds-easy','ds-medium','ds-hard']
-   let bombs = randomNoRepeat(1, numberSquares[diffSquare], 16)
+    gridElement.innerHTML='';
+    let clicks = 0 ;
+    let diffSquare =  document.querySelector('.form-select').value * 1;
+    let numberSquares =[9,100,81,49];
+    let classes=['ds-easy','ds-medium','ds-hard']
+    let bombs = randomNoRepeat(1, numberSquares[diffSquare], 4)
     console.log(bombs);
+    const result= document.createElement('p');
+    result.classList.add('d-none');
 
     for (let i = 0; i < numberSquares[diffSquare]; i++) {
-        // % creazione di un nuovo quadrato che assegno ad una nuova const newSquare
-        const newSquare = generateNewGridSquare('ciao');
+        const newSquare = generateNewGridSquare();
         newSquare.setAttribute('id', i+1);
         newSquare.classList.add(classes[diffSquare])
+
      
         newSquare.addEventListener('click', function(){
             if (bombs.includes(newSquare.getAttribute('id')*1)){
                 newSquare.classList.add('bomb');
                 newSquare.innerHTML="x";
                 // gridElement.innerHTML='';
+                // gameOver(numberSquares[diffSquare]);
+                result.innerHTML=`Hai perso, hai totalizzato un punteggio di ${clicks}`;
+                result.classList.remove('d-none')
+
 
             } else{
                 newSquare.classList.add('not-bomb');
                 newSquare.innerHTML= "o";
+                clicks++
+                if(clicks == (numberSquares[diffSquare]- 4)){
+                    result.innerHTML=`Hai vinto, hai totalizzato un punteggio di ${clicks}`;
+                result.classList.remove('d-none')
+                }
             
             }
         });
      
         // % aggiungo il mio nuovo quadrato alla grid precedemente selezionata
-        gridElement.append(newSquare);
+        gridElement.append(newSquare, result);
      }
      
 
 })
-
- 
- 
- function isEven(number){
-    if (number % 2 ===0){
-       return true;
-    } else {
-       return false;
-    }
- }
-
 
  function randomNoRepeat(min, max, nBombs){
     let arrayBombs= [];
@@ -79,4 +74,13 @@ buttonCreate.addEventListener('click', function(){
     }
     return arrayBombs
  }
+
+//  function gameOver(nBoxes){
+//     for(i=0; i< nBoxes; i++ ){
+//         variabile = document.getElementById(i+1)
+//         variabile.removeEventListener('click', gino)
+//     }
+    
+    
+//  }
 
